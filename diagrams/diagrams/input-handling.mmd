@@ -1,0 +1,23 @@
+stateDiagram-v2
+    [*] --> Listening
+    
+    state Listening {
+        [*] --> WaitingForInput
+        WaitingForInput --> ProcessingKey : Key pressed
+        WaitingForInput --> ProcessingMouse : Mouse wheel
+        WaitingForInput --> ProcessingSpecial : Special key (ESC/Q/L)
+        
+        ProcessingKey --> PlayerMovement : Arrow keys during game
+        ProcessingKey --> WaitingForInput : Other keys
+        
+        ProcessingMouse --> PlayerMovement : Wheel scroll during game
+        ProcessingMouse --> WaitingForInput : No game running
+        
+        ProcessingSpecial --> GameAction : ESC/Q (quit)
+        ProcessingSpecial --> UIToggle : L (leaderboard)
+        ProcessingSpecial --> WaitingForInput : Invalid context
+        
+        PlayerMovement --> WaitingForInput : Movement processed
+        GameAction --> WaitingForInput : Action completed
+        UIToggle --> WaitingForInput : UI toggled
+    }

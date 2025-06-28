@@ -1,0 +1,61 @@
+graph LR
+    subgraph "Input Sources"
+        KB[Keyboard Events]
+        MS[Mouse Events]
+        UI_Events[UI Events]
+    end
+    
+    subgraph "Input Processing"
+        IM[Input Manager]
+        KS[Key State Tracker]
+    end
+    
+    subgraph "Game Logic"
+        GS[Game State]
+        PP[Player Paddle Logic]
+        AP[AI Paddle Logic]
+        BP[Ball Physics]
+        SC[Score Controller]
+    end
+    
+    subgraph "Rendering"
+        RM[Render Manager]
+        CV[Canvas 2D Context]
+        GR[3D Graphics Renderer]
+    end
+    
+    subgraph "Data Persistence"
+        LB[Leaderboard Manager]
+        LS[Local Storage]
+    end
+    
+    subgraph "Output"
+        DISPLAY[Visual Display]
+        UI_Updates[UI Updates]
+    end
+    
+    KB --> IM
+    MS --> IM
+    UI_Events --> IM
+    IM --> KS
+    KS --> PP
+    IM --> GS
+    
+    GS --> PP
+    GS --> AP
+    GS --> BP
+    GS --> SC
+    
+    PP --> RM
+    AP --> RM
+    BP --> RM
+    SC --> UI_Updates
+    SC --> LB
+    
+    RM --> CV
+    CV --> GR
+    GR --> DISPLAY
+    
+    LB --> LS
+    LB --> UI_Updates
+    LS --> LB

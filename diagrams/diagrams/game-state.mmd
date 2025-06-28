@@ -1,0 +1,21 @@
+stateDiagram-v2
+    [*] --> Initial
+    
+    Initial --> NameInput : Page Load
+    NameInput --> GameRunning : Player enters name and starts
+    
+    state GameRunning {
+        [*] --> Playing
+        Playing --> Playing : Game loop continues
+        Playing --> Scoring : Ball goes off screen
+        Scoring --> Playing : Score < 10 for both players
+        Scoring --> GameOver : Player or AI reaches 10 points
+        Playing --> Paused : User presses L (toggle leaderboard)
+        Paused --> Playing : User presses L again
+        Playing --> GameOver : User quits (ESC/Q)
+    }
+    
+    GameOver --> ResultsDisplay : Calculate final score
+    ResultsDisplay --> LeaderboardUpdate : Add score to leaderboard
+    LeaderboardUpdate --> NameInput : User chooses to play again
+    LeaderboardUpdate --> [*] : User closes/quits application

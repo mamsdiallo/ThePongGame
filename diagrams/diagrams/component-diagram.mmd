@@ -1,0 +1,69 @@
+graph TB
+    subgraph "Pong Game Application"
+        subgraph "Presentation Layer"
+            HTML[HTML Interface]
+            CSS[CSS Styling]
+            UI[UI Components]
+            
+            HTML --> UI
+            CSS --> UI
+        end
+        
+        subgraph "Game Engine"
+            GL[Game Loop]
+            RM[Render Manager]
+            PM[Physics Manager]
+            IM[Input Manager]
+            
+            GL --> RM
+            GL --> PM
+            GL --> IM
+        end
+        
+        subgraph "Game Objects"
+            PL[Player Paddle]
+            AI[AI Paddle]
+            BALL[3D Ball]
+            GAME[Game State]
+            
+            PM --> PL
+            PM --> AI
+            PM --> BALL
+            GL --> GAME
+        end
+        
+        subgraph "Data Management"
+            LB[Leaderboard System]
+            LS[Local Storage]
+            SC[Score Controller]
+            
+            LB --> LS
+            SC --> LB
+            GAME --> SC
+        end
+        
+        subgraph "Rendering System"
+            CV[Canvas 2D Context]
+            GR[Gradient Renderer]
+            DR[Drawing Functions]
+            
+            RM --> CV
+            CV --> GR
+            CV --> DR
+            DR --> BALL
+        end
+    end
+    
+    subgraph "External APIs"
+        BROWSER[Browser APIs]
+        STORAGE[localStorage API]
+        RAF[requestAnimationFrame]
+        
+        LS --> STORAGE
+        GL --> RAF
+        IM --> BROWSER
+    end
+    
+    UI --> GL
+    IM --> GAME
+    RM --> UI

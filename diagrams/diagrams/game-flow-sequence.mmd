@@ -1,0 +1,51 @@
+sequenceDiagram
+    participant User
+    participant UI
+    participant GameEngine
+    participant Leaderboard
+    participant LocalStorage
+    participant Canvas
+    
+    User->>UI: Load page
+    UI->>Leaderboard: Initialize display
+    Leaderboard->>LocalStorage: Load saved scores
+    LocalStorage-->>Leaderboard: Return scores data
+    Leaderboard->>UI: Update leaderboard display
+    UI->>User: Show name input modal
+    
+    User->>UI: Enter name and start game
+    UI->>GameEngine: startGame(playerName)
+    GameEngine->>GameEngine: resetGameState()
+    GameEngine->>Canvas: Initialize rendering context
+    GameEngine->>GameEngine: Start game loop
+    
+    loop Game Loop
+        GameEngine->>GameEngine: updatePlayerPaddle()
+        GameEngine->>GameEngine: updateAIPaddle()
+        GameEngine->>GameEngine: updateBall()
+        GameEngine->>Canvas: render()
+        Canvas->>Canvas: draw3DBall()
+        Canvas->>Canvas: drawRect() for paddles
+        Canvas->>Canvas: drawDashedLine()
+    end
+    
+    alt Player/AI Scores
+        GameEngine->>GameEngine: Check win condition
+        alt Game Over (10 points reached)
+            GameEngine->>GameEngine: endGame()
+            GameEngine->>Leaderboard: addScore(name, score, duration)
+            Leaderboard->>LocalStorage: Save new score
+            Leaderboard->>UI: Update display
+            GameEngine->>User: Show game over dialog
+            User->>UI: Choose to play again
+            UI->>GameEngine: Restart game flow
+        end
+    end
+    
+    alt User Quits
+        User->>GameEngine: Press ESC/Q
+        GameEngine->>GameEngine: endGame()
+        GameEngine->>Leaderboard: addScore(name, score, duration)
+        Leaderboard->>LocalStorage: Save score
+        GameEngine->>User: Show results
+    end

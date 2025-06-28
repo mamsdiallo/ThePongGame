@@ -1,0 +1,32 @@
+graph TB
+    subgraph "Frontend Technologies"
+        HTML5[HTML5 Canvas]
+        CSS3[CSS3 Styling]
+        JS[Vanilla JavaScript ES6+]
+    end
+    
+    subgraph "Browser APIs"
+        CANVAS[Canvas 2D API]
+        STORAGE[Web Storage API]
+        DOM[DOM API]
+        EVENTS[Event API]
+        RAF[requestAnimationFrame]
+    end
+    
+    subgraph "Game Architecture Patterns"
+        GAMELOOP[Game Loop Pattern]
+        STATE[State Management]
+        OBSERVER[Event-Driven Pattern]
+        COMPONENT[Component Pattern]
+    end
+    
+    HTML5 --> CANVAS
+    CSS3 --> DOM
+    JS --> STORAGE
+    JS --> EVENTS
+    JS --> RAF
+    
+    CANVAS --> GAMELOOP
+    STORAGE --> STATE
+    EVENTS --> OBSERVER
+    DOM --> COMPONENT

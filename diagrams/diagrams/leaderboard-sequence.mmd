@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant Game
+    participant LeaderboardSystem
+    participant LocalStorage
+    participant UI
+    
+    Note over Game,UI: Game Initialization
+    Game->>LeaderboardSystem: Initialize
+    LeaderboardSystem->>LocalStorage: getData()
+    LocalStorage-->>LeaderboardSystem: Return stored scores array
+    LeaderboardSystem->>UI: updateDisplay()
+    UI->>UI: Render leaderboard list
+    
+    Note over Game,UI: During Gameplay
+    Game->>Game: Track game duration
+    Game->>Game: Track player score
+    
+    Note over Game,UI: Game End
+    Game->>LeaderboardSystem: addScore(name, score, duration)
+    LeaderboardSystem->>LeaderboardSystem: Create score object
+    LeaderboardSystem->>LocalStorage: getData()
+    LocalStorage-->>LeaderboardSystem: Current scores
+    LeaderboardSystem->>LeaderboardSystem: Add new score to array
+    LeaderboardSystem->>LeaderboardSystem: Sort by score desc, time asc
+    LeaderboardSystem->>LeaderboardSystem: Keep top 10 scores
+    LeaderboardSystem->>LocalStorage: saveData(topScores)
+    LeaderboardSystem->>UI: updateDisplay()
+    UI->>UI: Render updated leaderboard
+    LeaderboardSystem-->>Game: Return final leaderboard

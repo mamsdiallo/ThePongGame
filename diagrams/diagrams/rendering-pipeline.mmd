@@ -1,0 +1,24 @@
+graph TD
+    A[Game Loop Tick] --> B[Clear Canvas]
+    B --> C[Draw Background Elements]
+    C --> D[Draw Center Dashed Line]
+    D --> E[Draw Player Paddle]
+    E --> F[Draw AI Paddle]
+    F --> G[Draw 3D Ball]
+    
+    subgraph "3D Ball Rendering"
+        G --> G1[Save Canvas Context]
+        G1 --> G2[Enable High-Quality Smoothing]
+        G2 --> G3[Create Primary Radial Gradient]
+        G3 --> G4[Draw Main Ball with Gradient]
+        G4 --> G5[Draw Rim Shadows]
+        G5 --> G6[Draw Primary Highlight]
+        G6 --> G7[Draw Secondary Sparkle]
+        G7 --> G8[Draw Reflection]
+        G8 --> G9[Restore Canvas Context]
+    end
+    
+    G9 --> H[Update Score Display]
+    H --> I[Update Player Name Display]
+    I --> J[Schedule Next Frame]
+    J --> A
